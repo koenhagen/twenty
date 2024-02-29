@@ -72,4 +72,4 @@ jobs:
             cd packages/twenty-front && npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "npx http-server storybook-static --silent --port 6006" \
             "yarn storybook:modules:coverage"
-          count: 1
+          count: 100
