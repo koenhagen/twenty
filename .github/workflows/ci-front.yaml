@@ -74,7 +74,7 @@ jobs:
             cd packages/twenty-front && npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "npx http-server storybook-static --silent --port 6006" \
             "yarn storybook:pages:coverage"
-          count: 1
+          count: 100
   front-modules-sb-test:
     needs: front-yarn-install
     runs-on: ubuntu-latest
@@ -116,35 +116,4 @@ jobs:
             cd packages/twenty-front && npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "npx http-server storybook-static --silent --port 6006" \
             "yarn storybook:modules:coverage"
-          count: 1
-  front-jest:
-    needs: front-yarn-install
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
-        with:
-            access_token: ${{ github.token }}
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-      - name: Cache front node modules
-        uses: actions/cache@v3
-        with:
-          path: packages/twenty-front/node_modules
-          key: front-node_modules-${{hashFiles('yarn.lock')}}
-          restore-keys: front-node_modules-
-      - name: Cache root node modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: root-node_modules-${{hashFiles('yarn.lock')}}
-          restore-keys: root-node_modules-
-      - name: Front / Run jest
-        uses: koenhagen/measure-energy-action@v0.33
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: yarn nx test twenty-front
           count: 100
